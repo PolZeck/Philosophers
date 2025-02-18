@@ -53,5 +53,6 @@ int				start_simulation(t_data *data);
 // activity.c
 void			eat(t_philo *philo);
 void			sleep_and_think(t_philo *philo);
+void	*monitor_death(void *arg);
 
 #endif

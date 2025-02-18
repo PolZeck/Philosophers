@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:58 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 11:05:35 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 12:17:20 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	ft_usleep(int ms)
 void	print_status(t_philo *philo, char *status)
 {
 	pthread_mutex_lock(&philo->data->write_lock);
-	printf("%lld %d %s\n", get_timestamp() - philo->data->start_time, philo->id, status);
+	if (philo->data->simulation_running)  // 🔥 Vérifier avant d'afficher
+		printf("%lld %d %s\n", get_timestamp() - philo->data->start_time, philo->id, status);
 	pthread_mutex_unlock(&philo->data->write_lock);
 }
+
