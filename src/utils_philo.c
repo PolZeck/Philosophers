@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:30:09 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 12:42:18 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 13:10:09 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	check_death(t_data *data)
 			}
 			i++;
 		}
-		usleep(1000);
+		usleep(500);
 	}
 	return (0);
 }
