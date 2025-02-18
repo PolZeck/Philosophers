@@ -6,11 +6,11 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:30:09 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 13:10:09 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 20:58:14 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Include/philosophers.h"
+#include "../include/philosophers.h"
 
 int	check_death(t_data *data)
 {

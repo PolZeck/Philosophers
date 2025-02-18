@@ -6,11 +6,11 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 08:14:33 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 11:04:42 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 20:58:09 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Include/philosophers.h"
+#include "../include/philosophers.h"
 
 
 int	main(int ac, char **av)

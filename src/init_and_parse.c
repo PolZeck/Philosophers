@@ -6,11 +6,11 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 11:05:59 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 20:58:07 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Include/philosophers.h"
+#include "../include/philosophers.h"
 
 int	ft_atoi(const char *str)
 {

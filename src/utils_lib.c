@@ -6,11 +6,11 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:58 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 12:17:20 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/18 20:58:11 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../Include/philosophers.h"
+#include "../include/philosophers.h"
 
 long long get_timestamp(void)
 {

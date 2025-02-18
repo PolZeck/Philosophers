@@ -54,5 +54,7 @@ int				start_simulation(t_data *data);
 void			eat(t_philo *philo);
 void			sleep_and_think(t_philo *philo);
 void	*monitor_death(void *arg);
+void destroy_mutexes(t_data *data);
+
 
 #endif
