@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/19 15:07:48 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/19 15:22:11 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,32 +46,42 @@ void	*philosopher_routine(void *arg)
 
 int start_simulation(t_data *data)
 {
-    pthread_t death_checker;
+    pthread_t death_checker, meals_checker;
 
     for (int i = 0; i < data->num_philos; i++)
     {
         if (pthread_create(&data->philos[i].thread, NULL, philosopher_routine, &data->philos[i]))
             return (printf("Thread creation failed\n"), 1);
-        usleep(100); // Petit délai pour éviter la congestion
+        usleep(100);
     }
 
     if (pthread_create(&death_checker, NULL, monitor_death, data))
         return (printf("Death monitor thread failed\n"), 1);
 
+    if (data->num_meals > 0)
+    {
+        if (pthread_create(&meals_checker, NULL, monitor_meals, data))
+            return (printf("Meals monitor thread failed\n"), 1);
+        pthread_join(meals_checker, NULL);
+    }
+
     for (int i = 0; i < data->num_philos; i++)
         pthread_join(data->philos[i].thread, NULL);
+    
     pthread_join(death_checker, NULL);
 
     return (0);
 }
 
+
 void *monitor_death(void *arg)
 {
     t_data *data = (t_data *)arg;
-    int i;
+    int i, finished_meals;;
 
     while (data->simulation_running)
     {
+		finished_meals = 0;
         i = 0;
         while (i < data->num_philos)
         {
@@ -92,7 +102,46 @@ void *monitor_death(void *arg)
             pthread_mutex_unlock(&data->death_lock);
             i++;
         }
+		if (finished_meals == data->num_philos)
+        {
+            pthread_mutex_lock(&data->death_lock);
+            data->simulation_running = 0;
+            pthread_mutex_unlock(&data->death_lock);
+            return (NULL);
+        }
         usleep(500);
+    }
+    return (NULL);
+}
+
+void *monitor_meals(void *arg)
+{
+    t_data *data = (t_data *)arg;
+    int i, finished_meals;
+
+    while (data->simulation_running)
+    {
+        finished_meals = 0;
+        i = 0;
+
+        while (i < data->num_philos)
+        {
+            pthread_mutex_lock(&data->death_lock);
+            if (data->philos[i].meals_eaten >= data->num_meals && data->num_meals > 0)
+                finished_meals++;
+            pthread_mutex_unlock(&data->death_lock);
+            i++;
+        }
+
+        if (finished_meals == data->num_philos)
+        {
+            pthread_mutex_lock(&data->death_lock);
+            data->simulation_running = 0;
+            pthread_mutex_unlock(&data->death_lock);
+            return (NULL);
+        }
+
+        usleep(1000);
     }
     return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 20:58:07 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/19 15:20:03 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,27 +34,34 @@ int	ft_atoi(const char *str)
 	return ((int)(result * sign));
 }
 
-int	init_data(t_data *data, char **av)
+int init_data(t_data *data, char **av)
 {
-	data->num_philos = ft_atoi(av[1]);
-	data->time_to_die = ft_atoi(av[2]);
-	data->time_to_eat = ft_atoi(av[3]);
-	data->time_to_sleep = ft_atoi(av[4]);
-	data->num_meals = (av[5]) ? ft_atoi(av[5]) : -1;
-	if (data->num_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
-		return (printf("Invalid arguments\n"), 1);
-	data->simulation_running = 1;
-	data->start_time = get_timestamp();
-	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
-	data->philos = malloc(sizeof(t_philo) * data->num_philos);
-	if (!data->forks || !data->philos)
-		return (printf("Memory allocation failed\n"), 1);
-	for (int i = 0; i < data->num_philos; i++)
-		pthread_mutex_init(&data->forks[i], NULL);
-	pthread_mutex_init(&data->write_lock, NULL);
-	pthread_mutex_init(&data->death_lock, NULL);
-	return (0);
+    data->num_philos = ft_atoi(av[1]);
+    data->time_to_die = ft_atoi(av[2]);
+    data->time_to_eat = ft_atoi(av[3]);
+    data->time_to_sleep = ft_atoi(av[4]);
+    data->num_meals = (av[5]) ? ft_atoi(av[5]) : -1;
+
+    if (data->num_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
+        return (printf("Invalid arguments\n"), 1);
+
+    data->simulation_running = 1;
+    data->start_time = get_timestamp();
+    data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+    data->philos = malloc(sizeof(t_philo) * data->num_philos);
+
+    if (!data->forks || !data->philos)
+        return (printf("Memory allocation failed\n"), 1);
+
+    for (int i = 0; i < data->num_philos; i++)
+        pthread_mutex_init(&data->forks[i], NULL);
+    
+    pthread_mutex_init(&data->write_lock, NULL);
+    pthread_mutex_init(&data->death_lock, NULL);
+
+    return (0);
 }
+
 
 int	init_philosophers(t_data *data)
 {

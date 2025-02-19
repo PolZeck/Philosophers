@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:04 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/18 20:58:04 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/19 15:18:00 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	eat(t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->death_lock);
 	philo->last_meal = get_timestamp();
+	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->death_lock);
 
 	print_status(philo, "is eating");
