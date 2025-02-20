@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/19 15:22:11 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/20 15:19:32 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void *monitor_meals(void *arg)
     {
         finished_meals = 0;
         i = 0;
-
         while (i < data->num_philos)
         {
             pthread_mutex_lock(&data->death_lock);
@@ -132,15 +131,14 @@ void *monitor_meals(void *arg)
             pthread_mutex_unlock(&data->death_lock);
             i++;
         }
-
         if (finished_meals == data->num_philos)
         {
+			printf("All philosophers have eaten at least %d meals. Ending simulation.\n", data->num_meals);
             pthread_mutex_lock(&data->death_lock);
             data->simulation_running = 0;
             pthread_mutex_unlock(&data->death_lock);
             return (NULL);
         }
-
         usleep(1000);
     }
     return (NULL);

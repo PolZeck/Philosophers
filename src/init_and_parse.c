@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/19 15:20:03 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/20 15:08:44 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int init_data(t_data *data, char **av)
 
     return (0);
 }
-
 
 int	init_philosophers(t_data *data)
 {
