@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 13:32:52 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/24 15:42:36 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	init_data(t_data *data, char **av)
 	int	i;
 
 	i = -1;
+	memset(data, 0, sizeof(t_data)); // Initialisation complète à zéro
 	data->num_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
@@ -77,6 +78,7 @@ int	init_philosophers(t_data *data)
 	i = 0;
 	while (i < data->num_philos)
 	{
+		memset(&data->philos[i], 0, sizeof(t_philo)); // Initialisation du philosophe
 		data->philos[i].id = i + 1;
 		data->philos[i].meals_eaten = 0;
 		data->philos[i].last_meal = data->start_time;

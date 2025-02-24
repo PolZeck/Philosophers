@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 13:17:01 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/24 15:43:50 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ int	start_simulation(t_data *data)
 	pthread_t	meals_checker;
 	int			i;
 
+	memset(&death_checker, 0, sizeof(pthread_t));
+	memset(&meals_checker, 0, sizeof(pthread_t));
 	if (create_philo_threads(data))
 		return (1);
 	if (pthread_create(&death_checker, NULL, monitor_death, data))

@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:31:13 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 14:35:13 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/24 15:41:00 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
 # include <unistd.h>
 # include <sys/time.h>
 # include <pthread.h>
