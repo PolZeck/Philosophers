@@ -1,33 +1,56 @@
-NAME		= philo
-CC			= cc
-CFLAGS		= -Wall -Wextra -Werror 
-RM			= rm -f
+# **************************************************************************** #
+#                                🏛️ PHILOSOPHERS 🏛️                            #
+# **************************************************************************** #
 
-SRCS		= src/main.c \
-			  src/init_and_parse.c \
-			  src/threads.c \
-			  src/activity.c \
-			  src/utils_lib.c \
-			  src/threads_utils.c
+# 🔹 Nom de l'exécutable
+NAME = philo
 
-OBJS		= $(SRCS:.c=.o)
+# ⚙️ Compilateur et options
+CC = cc
+CFLAGS = -Wall -Wextra -Werror -g -MMD -MP
 
-INCLUDE		= -I include/
+# 📁 Dossiers
+SRC_DIR = src
+OBJ_DIR = obj
+DEP_DIR = dep
+INCLUDE_DIR = include
 
+# 📄 Fichiers source
+SRC = $(SRC_DIR)/main.c $(SRC_DIR)/init_and_parse.c $(SRC_DIR)/threads.c \
+	  $(SRC_DIR)/activity.c $(SRC_DIR)/utils_lib.c $(SRC_DIR)/threads_utils.c
+
+# 🗃️ Fichiers objets et dépendances
+OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+DEP = $(SRC:$(SRC_DIR)/%.c=$(DEP_DIR)/%.d)
+
+# 📚 Fichiers headers
+HEADERS = $(INCLUDE_DIR)/philosophers.h
+
+# 🎯 Règles principales
 all: $(NAME)
+	@echo "\033[32m✅ Compilation réussie : $(NAME)\033[0m"
 
-$(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+$(NAME): $(OBJ) $(HEADERS)
+	@echo "\033[34m🔨 Création de l'exécutable $(NAME)...\033[0m"
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDE) -c $< -o $@
+# 🛠️ Compilation des fichiers source
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c $(HEADERS)
+	@mkdir -p $(OBJ_DIR) $(DEP_DIR)
+	$(CC) $(CFLAGS) -I$(INCLUDE_DIR) -c $< -o $@ -MF $(DEP_DIR)/$*.d
 
+# 🧹 Nettoyage
 clean:
-	$(RM) $(OBJS)
+	@echo "\033[33m🗑️ Suppression des fichiers objets...\033[0m"
+	rm -rf $(OBJ_DIR) $(DEP_DIR)
 
 fclean: clean
-	$(RM) $(NAME)
+	@echo "\033[31m🗑️ Suppression de l'exécutable...\033[0m"
+	rm -f $(NAME)
 
 re: fclean all
+
+# 📎 Inclusion des dépendances
+-include $(DEP)
 
 .PHONY: all clean fclean re
