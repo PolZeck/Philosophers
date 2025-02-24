@@ -8,7 +8,7 @@ SRCS		= src/main.c \
 			  src/threads.c \
 			  src/activity.c \
 			  src/utils_lib.c \
-			  src/utils_philo.c
+			  src/threads_utils.c
 
 OBJS		= $(SRCS:.c=.o)
 

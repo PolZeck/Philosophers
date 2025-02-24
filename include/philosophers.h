@@ -1,5 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philosophers.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/02/24 14:31:13 by pledieu           #+#    #+#             */
+/*   Updated: 2025/02/24 14:35:13 by pledieu          ###   ########lyon.fr   */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILOSOPHERS_H
-#define PHILOSOPHERS_H
+# define PHILOSOPHERS_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -7,7 +19,7 @@
 # include <sys/time.h>
 # include <pthread.h>
 
-typedef struct s_data t_data;
+typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
@@ -38,7 +50,7 @@ struct s_data
 // utils_lib.c
 long long		get_timestamp(void);
 void			ft_usleep(int ms);
-int				ft_atoi(const char *str);
+int				ft_atoi(const char *nptr);
 void			print_status(t_philo *philo, char *status);
 
 // init_and_parse.c
@@ -53,10 +65,14 @@ int				start_simulation(t_data *data);
 // activity.c
 void			eat(t_philo *philo);
 void			sleep_and_think(t_philo *philo);
-void	*monitor_death(void *arg);
-void *monitor_meals(void *arg);
+void			*monitor_death(void *arg);
+void			*monitor_meals(void *arg);
 
-void destroy_mutexes(t_data *data);
-
+void			take_fork_alone(t_philo *philo);
+int				check_simulation_running(t_philo *philo);
+int				create_philo_threads(t_data *data);
+void			handle_death(t_data *data, int i);
+int				death_check(t_data *data, int i);
+int				count_finished_meals(t_data *data);
 
 #endif

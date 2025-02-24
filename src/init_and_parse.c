@@ -6,65 +6,76 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/20 15:08:44 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/24 13:32:52 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *nptr)
 {
-	int		i;
-	int		sign;
-	long	result;
+	int					i;
+	int					sign;
+	unsigned long long	ans;
 
 	i = 0;
 	sign = 1;
-	result = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+	ans = 0;
+	while (((nptr[i] >= 9 && nptr[i] <= 13)) || nptr[i] == ' ')
 		i++;
-	if (str[i] == '-' || str[i] == '+')
-		sign = (str[i++] == '-') ? -1 : 1;
-	while (str[i] >= '0' && str[i] <= '9')
+	if (nptr[i] == '+' || nptr[i] == '-')
 	{
-		result = result * 10 + (str[i++] - '0');
-		if (result > 2147483647)
-			return (-1);
+		if (nptr[i] == '-')
+			sign *= -1;
+		i++;
 	}
-	return ((int)(result * sign));
+	while (nptr[i] >= '0' && nptr[i] <= '9')
+	{
+		ans = ans * 10 + (nptr[i] - '0');
+		if (ans >= __LONG_LONG_MAX__ && sign < 0)
+			return (0);
+		if (ans >= __LONG_LONG_MAX__)
+			return (-1);
+		i++;
+	}
+	return (((int) ans) * sign);
 }
 
-int init_data(t_data *data, char **av)
+int	init_data(t_data *data, char **av)
 {
-    data->num_philos = ft_atoi(av[1]);
-    data->time_to_die = ft_atoi(av[2]);
-    data->time_to_eat = ft_atoi(av[3]);
-    data->time_to_sleep = ft_atoi(av[4]);
-    data->num_meals = (av[5]) ? ft_atoi(av[5]) : -1;
+	int	i;
 
-    if (data->num_philos <= 0 || data->time_to_die <= 0 || data->time_to_eat <= 0 || data->time_to_sleep <= 0)
-        return (printf("Invalid arguments\n"), 1);
-
-    data->simulation_running = 1;
-    data->start_time = get_timestamp();
-    data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
-    data->philos = malloc(sizeof(t_philo) * data->num_philos);
-
-    if (!data->forks || !data->philos)
-        return (printf("Memory allocation failed\n"), 1);
-
-    for (int i = 0; i < data->num_philos; i++)
-        pthread_mutex_init(&data->forks[i], NULL);
-    
-    pthread_mutex_init(&data->write_lock, NULL);
-    pthread_mutex_init(&data->death_lock, NULL);
-
-    return (0);
+	i = -1;
+	data->num_philos = ft_atoi(av[1]);
+	data->time_to_die = ft_atoi(av[2]);
+	data->time_to_eat = ft_atoi(av[3]);
+	data->time_to_sleep = ft_atoi(av[4]);
+	if (av[5])
+		data->num_meals = ft_atoi(av[5]);
+	else
+		data->num_meals = -1;
+	if (data->num_philos <= 0 || data->time_to_die <= 0
+		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
+		return (printf("Invalid arguments\n"), 1);
+	data->simulation_running = 1;
+	data->start_time = get_timestamp();
+	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
+	data->philos = malloc(sizeof(t_philo) * data->num_philos);
+	if (!data->forks || !data->philos)
+		return (printf("Memory allocation failed\n"), 1);
+	while (++i < data->num_philos)
+		pthread_mutex_init(&data->forks[i], NULL);
+	pthread_mutex_init(&data->write_lock, NULL);
+	pthread_mutex_init(&data->death_lock, NULL);
+	return (0);
 }
 
 int	init_philosophers(t_data *data)
 {
-	for (int i = 0; i < data->num_philos; i++)
+	int	i;
+
+	i = 0;
+	while (i < data->num_philos)
 	{
 		data->philos[i].id = i + 1;
 		data->philos[i].meals_eaten = 0;
@@ -72,14 +83,21 @@ int	init_philosophers(t_data *data)
 		data->philos[i].left_fork = &data->forks[i];
 		data->philos[i].right_fork = &data->forks[(i + 1) % data->num_philos];
 		data->philos[i].data = data;
+		i++;
 	}
 	return (0);
 }
 
 void	cleanup(t_data *data)
 {
-	for (int i = 0; i < data->num_philos; i++)
+	int	i;
+
+	i = 0;
+	while (i < data->num_philos)
+	{
 		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
 	pthread_mutex_destroy(&data->write_lock);
 	pthread_mutex_destroy(&data->death_lock);
 	free(data->forks);
