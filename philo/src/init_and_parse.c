@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 15:46:21 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 13:28:24 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ int	init_data(t_data *data, char **av)
 	int	i;
 
 	i = -1;
+	memset(data, 0, sizeof(t_data));
+	data->num_meals = -1;
 	data->num_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
 		data->num_meals = ft_atoi(av[5]);
-	else
-		data->num_meals = -1;
 	if (data->num_philos <= 0 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 		return (printf("Invalid arguments\n"), 1);

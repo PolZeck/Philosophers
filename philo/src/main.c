@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 08:14:33 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 11:11:05 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 13:35:48 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	main(int ac, char **av)
 	}
 	if (init_data(&data, av) || init_philosophers(&data))
 	{
-		cleanup(&data);
+		if (data.forks && data.philos)
+			cleanup(&data);
 		return (1);
 	}
 	if (start_simulation(&data))
