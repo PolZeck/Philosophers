@@ -6,18 +6,14 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 14:12:32 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 14:24:02 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/philosophers.h"
 
-int	init_data(t_data *data, char **av)
+static int	parse_arguments(t_data *data, char **av)
 {
-	int	i;
-
-	i = -1;
-	memset(data, 0, sizeof(t_data));
 	data->num_meals = -1;
 	data->num_philos = ft_atoi(av[1]);
 	data->time_to_die = ft_atoi(av[2]);
@@ -32,12 +28,23 @@ int	init_data(t_data *data, char **av)
 	if (data->num_philos <= 0 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 		return (printf("Invalid arguments\n"), 1);
+	return (0);
+}
+
+int	init_data(t_data *data, char **av)
+{
+	int	i;
+
+	memset(data, 0, sizeof(t_data));
+	if (parse_arguments(data, av))
+		return (1);
 	data->simulation_running = 1;
 	data->start_time = get_timestamp();
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_philos);
 	data->philos = malloc(sizeof(t_philo) * data->num_philos);
 	if (!data->forks || !data->philos)
 		return (printf("Memory allocation failed\n"), 1);
+	i = -1;
 	while (++i < data->num_philos)
 		pthread_mutex_init(&data->forks[i], NULL);
 	pthread_mutex_init(&data->write_lock, NULL);
