@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 13:28:24 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 14:09:18 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ int	ft_atoi(const char *nptr)
 			sign *= -1;
 		i++;
 	}
+	if (!(nptr[i] >= '0' && nptr[i] <= '9'))
+		return (-1);
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		ans = ans * 10 + (nptr[i] - '0');
-		if (ans >= __LONG_LONG_MAX__ && sign < 0)
-			return (0);
-		if (ans >= __LONG_LONG_MAX__)
+		if (ans > __LONG_LONG_MAX__)
 			return (-1);
 		i++;
 	}
+	if (nptr[i] != '\0')
+		return (-1);
 	return (((int) ans) * sign);
 }
 
@@ -53,7 +55,11 @@ int	init_data(t_data *data, char **av)
 	data->time_to_eat = ft_atoi(av[3]);
 	data->time_to_sleep = ft_atoi(av[4]);
 	if (av[5])
+	{
 		data->num_meals = ft_atoi(av[5]);
+		if (data->num_meals <= 0)
+					return (printf("Invalid arguments\n"), 1);
+	}
 	if (data->num_philos <= 0 || data->time_to_die <= 0
 		|| data->time_to_eat <= 0 || data->time_to_sleep <= 0)
 		return (printf("Invalid arguments\n"), 1);
