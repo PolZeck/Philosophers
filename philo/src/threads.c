@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 15:43:50 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 11:19:24 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ int	start_simulation(t_data *data)
 	pthread_t	meals_checker;
 	int			i;
 
-	memset(&death_checker, 0, sizeof(pthread_t));
-	memset(&meals_checker, 0, sizeof(pthread_t));
 	if (create_philo_threads(data))
 		return (1);
 	if (pthread_create(&death_checker, NULL, monitor_death, data))
@@ -30,9 +28,15 @@ int	start_simulation(t_data *data)
 			return (printf("Meals monitor thread failed\n"), 1);
 		pthread_join(meals_checker, NULL);
 	}
-	i = 0;
-	while (i < data->num_philos)
-		pthread_join(data->philos[i++].thread, NULL);
+	i = -1;
+	while (++i < data->num_philos)
+	{
+		if (pthread_join(data->philos[i].thread, NULL))
+		{
+			printf("❌ Erreur en rejoignant le thread du philosophe %d\n", i);
+			return (1);
+		}
+	}
 	pthread_join(death_checker, NULL);
 	return (0);
 }
@@ -41,25 +45,25 @@ void	*monitor_death(void *arg)
 {
 	t_data	*data;
 	int		i;
-	int		finished_meals;
 
 	data = (t_data *)arg;
-	while (data->simulation_running)
+	while (1)
 	{
-		finished_meals = 0;
+		pthread_mutex_lock(&data->death_lock);
+		if (!data->simulation_running)
+		{
+			pthread_mutex_unlock(&data->death_lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&data->death_lock);
 		i = 0;
 		while (i < data->num_philos)
 		{
 			if (death_check(data, i))
+			{
 				return (NULL);
+			}
 			i++;
-		}
-		if (finished_meals == data->num_philos)
-		{
-			pthread_mutex_lock(&data->death_lock);
-			data->simulation_running = 0;
-			pthread_mutex_unlock(&data->death_lock);
-			return (NULL);
 		}
 		usleep(500);
 	}
@@ -119,7 +123,12 @@ int	death_check(t_data *data, int i)
 	time_since_meal = get_timestamp() - data->philos[i].last_meal;
 	if (time_since_meal > data->time_to_die && data->simulation_running)
 	{
-		handle_death(data, i);
+		data->simulation_running = 0;
+		pthread_mutex_unlock(&data->death_lock);
+		pthread_mutex_lock(&data->write_lock);
+		printf("%lld %d died\n",
+			get_timestamp() - data->start_time, data->philos[i].id);
+		pthread_mutex_unlock(&data->write_lock);
 		return (1);
 	}
 	pthread_mutex_unlock(&data->death_lock);

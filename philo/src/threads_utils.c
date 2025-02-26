@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 11:28:31 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 13:16:54 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 11:08:20 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	take_fork_alone(t_philo *philo)
 {
 	pthread_mutex_lock(philo->left_fork);
 	print_status(philo, "has taken a fork");
-	ft_usleep(philo->data->time_to_die);
+	ft_usleep(philo->data->time_to_die, philo->data);
 	pthread_mutex_unlock(philo->left_fork);
 }
 

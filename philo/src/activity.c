@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:04 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/24 14:15:34 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/26 11:08:14 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	eat(t_philo *philo)
 	philo->meals_eaten++;
 	pthread_mutex_unlock(&philo->data->death_lock);
 	print_status(philo, "is eating");
-	ft_usleep(philo->data->time_to_eat);
+	ft_usleep(philo->data->time_to_eat, philo->data);
 	pthread_mutex_unlock(second_fork);
 	pthread_mutex_unlock(first_fork);
 }
@@ -64,6 +64,13 @@ void	eat(t_philo *philo)
 void	sleep_and_think(t_philo *philo)
 {
 	print_status(philo, "is sleeping");
-	ft_usleep(philo->data->time_to_sleep);
+	ft_usleep(philo->data->time_to_sleep, philo->data);
+	pthread_mutex_lock(&philo->data->death_lock);
+	if (!philo->data->simulation_running)
+	{
+		pthread_mutex_unlock(&philo->data->death_lock);
+		return ;
+	}
+	pthread_mutex_unlock(&philo->data->death_lock);
 	print_status(philo, "is thinking");
 }

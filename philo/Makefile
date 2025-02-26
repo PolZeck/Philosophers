@@ -7,7 +7,7 @@ NAME = philo
 
 # ⚙️ Compilateur et options
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -MMD -MP
+CFLAGS = -Wall -Wextra -Werror -MMD -MP
 
 # 📁 Dossiers
 SRC_DIR = src
