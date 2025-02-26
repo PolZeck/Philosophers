@@ -17,7 +17,8 @@ INCLUDE_DIR = include
 
 # 📄 Fichiers source
 SRC = $(SRC_DIR)/main.c $(SRC_DIR)/init_and_parse.c $(SRC_DIR)/threads.c \
-	  $(SRC_DIR)/activity.c $(SRC_DIR)/utils_lib.c $(SRC_DIR)/threads_utils.c
+	  $(SRC_DIR)/activity.c $(SRC_DIR)/utils_lib.c $(SRC_DIR)/threads_utils.c \
+	  $(SRC_DIR)/utils.c
 
 # 🗃️ Fichiers objets et dépendances
 OBJ = $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
