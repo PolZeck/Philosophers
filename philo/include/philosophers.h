@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:31:13 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/27 09:51:08 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 16:24:48 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void			*monitor_meals(void *arg);
 void			take_fork_alone(t_philo *philo);
 int				check_simulation_running(t_philo *philo);
 int				create_philo_threads(t_data *data);
-void			handle_death(t_data *data, int i);
 int				death_check(t_data *data, int i);
 int				count_finished_meals(t_data *data);
 

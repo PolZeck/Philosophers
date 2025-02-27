@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/26 14:11:57 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 14:19:01 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 16:32:06 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,22 @@ int	ft_atoi(const char *nptr)
 	}
 	return (((int) ans) * sign);
 }
+/**
+ * @brief Cleans up allocated resources and destroys mutexes.
+ * 
+ * This function:
+ * - Iterates through all forks and destroys their mutexes.
+ * - Destroys the `write_lock` and `death_lock` mutexes.
+ * - Frees dynamically allocated memory for forks and philosophers.
+ * 
+ * @param data Pointer to the `t_data` structure containing 
+ *             simulation data.
+ * 
+ * @note This function should be called at the end of the 
+ *       simulation to prevent memory leaks.
+ * @note Ensures that all mutexes are properly destroyed 
+ *       before freeing memory.
+ */
 
 void	cleanup(t_data *data)
 {

@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:19 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 14:24:02 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 16:03:13 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ static int	parse_arguments(t_data *data, char **av)
 		return (printf("Invalid arguments\n"), 1);
 	return (0);
 }
+/**
+ * @brief Initializes the `t_data` structure for the simulation.
+ * 
+ * This function:
+ * - Resets all fields of `t_data` using `memset()`.
+ * - Parses user arguments via `parse_arguments()`.
+ * - Allocates memory for philosophers (`t_philo`) 
+ *   and forks (`pthread_mutex_t`).
+ * - Initializes mutexes used for thread synchronization.
+ * 
+ * @param data Pointer to `t_data`, storing simulation data.
+ * @param av Array of strings containing program arguments.
+ * 
+ * @return Returns `0` if successful, `1` if an error occurs.
+ * 
+ * @note If memory allocation fails, an error is printed 
+ *       and the function returns `1`.
+ * @note If `parse_arguments()` fails, the function exits 
+ *       immediately with `1`.
+ * @note All mutexes (forks, `write_lock`, `death_lock`) 
+ *       are initialized for thread safety.
+ */
 
 int	init_data(t_data *data, char **av)
 {
