@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/27 10:20:21 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 15:24:57 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
+	if (philo->id % 2 == 0)
+		usleep(1000);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->death_lock);
