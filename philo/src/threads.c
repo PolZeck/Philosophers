@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:36 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 11:19:24 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 10:20:21 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,7 @@ void	*monitor_death(void *arg)
 		while (i < data->num_philos)
 		{
 			if (death_check(data, i))
-			{
 				return (NULL);
-			}
 			i++;
 		}
 		usleep(500);
@@ -98,21 +96,20 @@ void	*philosopher_routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	if (philo->data->num_philos == 1)
-	{
-		take_fork_alone(philo);
-		return (NULL);
-	}
 	while (1)
 	{
-		if (!check_simulation_running(philo))
-			break ;
+		pthread_mutex_lock(&philo->data->death_lock);
+		if (!philo->data->simulation_running)
+		{
+			pthread_mutex_unlock(&philo->data->death_lock);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&philo->data->death_lock);
 		eat(philo);
-		if (!check_simulation_running(philo))
-			break ;
+		if (!philo->data->simulation_running)
+			return (NULL);
 		sleep_and_think(philo);
 	}
-	return (NULL);
 }
 
 int	death_check(t_data *data, int i)

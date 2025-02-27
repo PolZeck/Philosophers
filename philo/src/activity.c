@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/17 10:29:04 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 11:08:14 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 10:35:43 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,28 @@ int	check_death(t_philo *philo)
 	return (0);
 }
 
+static void	one_philo(t_philo *philo)
+{
+	pthread_mutex_lock(philo->left_fork);
+	print_status(philo, "has taken a fork");
+	ft_usleep(philo->data->time_to_die, philo->data);
+	print_status(philo, "died");
+	pthread_mutex_lock(&philo->data->death_lock);
+	philo->data->simulation_running = 0;
+	pthread_mutex_unlock(&philo->data->death_lock);
+	pthread_mutex_unlock(philo->left_fork);
+}
+
 void	eat(t_philo *philo)
 {
 	pthread_mutex_t	*first_fork;
 	pthread_mutex_t	*second_fork;
 
+	if (philo->data->num_philos == 1)
+	{
+		one_philo(philo);
+		return ;
+	}
 	assign_forks(philo, &first_fork, &second_fork);
 	if (check_death(philo))
 		return ;

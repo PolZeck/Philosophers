@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:31:13 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/26 10:46:16 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 09:51:08 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ struct s_data
 long long		get_timestamp(void);
 void			ft_usleep(int time_in_ms, t_data *data);
 int				ft_atoi(const char *nptr);
-void			print_status(t_philo *philo, char *status);
+void			print_status(t_philo *philo, const char *status);
 
 // init_and_parse.c
 int				init_data(t_data *data, char **av);
