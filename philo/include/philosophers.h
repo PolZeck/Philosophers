@@ -6,7 +6,7 @@
 /*   By: pledieu <pledieu@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/24 14:31:13 by pledieu           #+#    #+#             */
-/*   Updated: 2025/02/27 16:24:48 by pledieu          ###   ########lyon.fr   */
+/*   Updated: 2025/02/27 18:07:15 by pledieu          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_philo
 	t_data			*data;
 }	t_philo;
 
-struct s_data
+typedef struct s_data
 {
 	int				num_philos;
 	int				time_to_die;
@@ -46,7 +46,7 @@ struct s_data
 	pthread_mutex_t	write_lock;
 	pthread_mutex_t	death_lock;
 	t_philo			*philos;
-};
+}	t_data;
 
 // utils_lib.c
 long long		get_timestamp(void);
